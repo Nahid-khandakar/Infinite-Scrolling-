@@ -17,9 +17,10 @@ const Home = () => {
             const res = await fetch(url)
             const data = await res.json()
             setUsers(data.results)
+            setLoading(false)
         }, 1000);
 
-    }, [loading])
+    }, [])
 
 
     return (
@@ -28,13 +29,13 @@ const Home = () => {
 
 
 
-            <div className='mt-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-y-9'>
+            <div className='my-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-y-9'>
 
                 {
                     users?.map((user, index) => <Usercard
                         key={index}
                         user={user}
-                        setLoading={setLoading}
+                        loading={loading}
                     ></Usercard>)
                 }
 

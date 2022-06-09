@@ -1,13 +1,13 @@
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const Usercard = ({ user, setLoading }) => {
+const Usercard = ({ user, loading }) => {
 
     return (
 
         <>
             {
-                setLoading === true ?
+                loading ?
 
                     <div className='px-5'>
                         <div className="max-w-2xl mx-auto">
