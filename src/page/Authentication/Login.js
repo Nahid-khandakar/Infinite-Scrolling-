@@ -1,9 +1,50 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import Loading from '../../Loading/Loading'
 
 const Login = () => {
-    return (
 
+    const navigate = useNavigate()
+    const location = useLocation()
+    let from = location.state?.from?.pathname || "/";
+
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+
+    if (user) {
+        navigate(from, { replace: true });
+    }
+
+    if (loading) {
+        return <Loading></Loading>
+    }
+
+    //if any error
+    let errorElement;
+    if (error) {
+        errorElement = <p className='text-red-600'>Error: {error?.message}</p>
+    }
+
+    const handleLogIn = (event) => {
+        event.preventDefault();
+        const email = event.target.email.value
+        const password = event.target.password.value
+
+        if (!error) {
+            signInWithEmailAndPassword(email, password)
+        }
+
+
+    }
+
+    return (
 
         <div className="mt-20 flex flex-col items-center justify-center bg-base-100">
 
@@ -13,7 +54,7 @@ const Login = () => {
 
                 <div className="mt-6">
 
-                    <form>
+                    <form onSubmit={handleLogIn}>
 
 
                         <div className="flex flex-col mb-6">
@@ -25,7 +66,7 @@ const Login = () => {
                                     </svg>
                                 </div>
 
-                                <input id="email" type="email" name="email" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" />
+                                <input type="email" name="email" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" />
                             </div>
                         </div>
 
@@ -40,10 +81,11 @@ const Login = () => {
                                     </span>
                                 </div>
 
-                                <input id="password" type="password" name="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
+                                <input type="password" name="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
                             </div>
                         </div>
 
+                        {errorElement}
 
                         <div className="flex w-full">
                             <button type="submit" className="flex items-center justify-center focus:outline-none text-white text-sm sm:text-base  hover:text-warning rounded py-2 w-full transition duration-150 ease-in">
