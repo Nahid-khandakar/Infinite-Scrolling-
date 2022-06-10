@@ -10,7 +10,7 @@ const Usercard = ({ user, loading }) => {
                 loading ?
 
                     <div className='px-5'>
-                        <div className="max-w-2xl mx-auto">
+                        <div className="max-w-2xl">
                             <div className='max-w-sm bg-white shadow-lg rounded-lg py-5 '>
                                 <div className='text-center items-center pb-10'>
                                     <Skeleton className='mb-3 w-24 h-24 rounded-full shadow-mg mx-auto' circle={true} height={96} width={96} />
@@ -24,7 +24,7 @@ const Usercard = ({ user, loading }) => {
                     </div>
                     :
                     <div className='px-5'>
-                        <div className="max-w-2xl mx-auto">
+                        <div className="max-w-2xl">
                             <div className="max-w-sm bg-primary rounded-lg py-5 ">
                                 <div className="text-center items-center pb-10">
                                     <img src={user.picture.medium} className="mb-3 w-24 h-24 rounded-full shadow-lg mx-auto" alt="random user" />
