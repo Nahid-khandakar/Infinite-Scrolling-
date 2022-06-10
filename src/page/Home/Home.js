@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import SkeletonLoading from '../SkeletonLoading/SkeletonLoading';
 import Usercard from '../Usercard/Usercard';
 
 
@@ -6,21 +7,23 @@ import Usercard from '../Usercard/Usercard';
 const Home = () => {
 
     const [users, setUsers] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
-
-    const url = "https://randomuser.me/api/?results=1500"
+    const url = "https://randomuser.me/api/?results=500"
 
     useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    setUsers(data.results)
+                    setLoading(false)
+                })
 
-        setTimeout(async () => {
-            const res = await fetch(url)
-            const data = await res.json()
-            setUsers(data.results)
-            setLoading(false)
         }, 1000);
 
-    }, [])
+    }, [loading])
 
 
     return (
@@ -32,11 +35,18 @@ const Home = () => {
             <div className='my-10 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-y-9'>
 
                 {
-                    users?.map((user, index) => <Usercard
-                        key={index}
-                        user={user}
-                        loading={loading}
-                    ></Usercard>)
+                    loading ?
+
+                        users?.map((user, index) => <SkeletonLoading></SkeletonLoading>)
+                        :
+
+                        users?.map((user, index) => <Usercard
+                            key={index}
+                            user={user}
+                            loading={loading}
+                        ></Usercard>)
+
+
                 }
 
             </div>
