@@ -9,7 +9,7 @@ const Home = () => {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const url = "https://randomuser.me/api/?results=2000"
+    const url = "https://randomuser.me/api/?results=1000"
 
     useEffect(() => {
         setLoading(true)
